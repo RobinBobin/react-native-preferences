@@ -1,0 +1,26 @@
+{
+  "name": "@robinbobin/react-native-preferences",
+  "version": "0.1.0",
+  "description": "Persistent unencrypted storage for application preferences.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/RobinBobin/react-native-preferences.git"
+  },
+  "keywords": [
+    "React Native",
+    "preference storage"
+  ],
+  "author": "Ruben Shalimov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RobinBobin/react-native-preferences/issues"
+  },
+  "homepage": "https://github.com/RobinBobin/react-native-preferences#readme",
+  "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.14.1"
+  }
+}
