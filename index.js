@@ -1,16 +1,27 @@
-
-import ArrayPreference from "./js/ArrayPreference";
-import JSONPreference from "./js/JSONPreference"
+import {
+  useEffect,
+  useState
+} from "react";
+// import ArrayPreference from "./js/ArrayPreference";
+// import JSONPreference from "./js/JSONPreference"
 import NumberPreference from "./js/NumberPreference";
 import Preference from "./js/Preference";
 import Preferences from "./js/Preferences";
-import SwitchPreference from "./js/SwitchPreference";
+import StringPreference from "./js/StringPreference";
 
 export {
-  ArrayPreference,
-  JSONPreference,
+  // ArrayPreference,
+  // JSONPreference,
   NumberPreference,
   Preference,
   Preferences,
-  SwitchPreference
+  StringPreference
+};
+
+export function usePreferences(preferences, onLoad) {
+  const [prefs] = useState(() => new Preferences(preferences));
+  
+  useEffect(() => prefs.load().then(onLoad), [prefs]);
+  
+  return prefs;
 };
