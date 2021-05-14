@@ -16,8 +16,5 @@
     "type": "git",
     "url": "git+ssh://git@github.com/RobinBobin/react-native-preferences.git"
   },
-  "scripts": {
-    "postinstall": "npm i @react-native-async-storage/async-storage@^1.14.1"
-  },
-  "version": "1.0.0"
+  "version": "1.0.1"
 }
