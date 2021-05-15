@@ -5,7 +5,7 @@ export default class StringPreference extends Preference {
     super(name, defaultValue, String);
   }
   
-  _parse(value) {
+  parse(value) {
     return value;
   }
 };

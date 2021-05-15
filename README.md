@@ -9,7 +9,7 @@
 	npm i @robinbobin/react-native-preferences
 	npm i @react-native-async-storage/async-storage@^1.14.1
 
-My package depends on [`@react-native-async-storage/async-storage`](https://www.npmjs.com/package/@react-native-async-storage/async-storage/v/1.14.1), and that package needs linking as it contains native code. If it's specified as a dependency of `@robinbobin/react-native-preferences` it won't be added to an app's `package.json` as a dependency and won't be linked. Hence the need for manual installation.
+My package uses [`@react-native-async-storage/async-storage`](https://www.npmjs.com/package/@react-native-async-storage/async-storage/v/1.14.1) to manage preference values, and that package needs linking. If it's specified as a dependency of `@robinbobin/react-native-preferences` it's not added to an app's `package.json` as a dependency and is not linked. Hence the need for manual installation.
 
 ### <a name="usage"></a>[Usage](#cusage)
 
@@ -40,8 +40,90 @@ Example:
 2. <a name="cpreference"></a>[Preference](#preference)
 3. <a name="cnumberpreference"></a>[NumberPreference](#numberpreference)
 4. <a name="cstringpreference"><a>[StringPreference](#stringpreference)
+5. <a name="cusepreferences"></a>[usePreferences()](#usepreferences)
 
 #### <a name="preferences"></a>[Preferences](#cpreferences)
+
+An instance of this class stores all the preferences. See [`usePreferences()`](#usepreferences).
+
+- [areLoaded](#preferences)
+
+	A boolean property, returning `true` if the properties have been loaded and `false` otherwise.
+
+- <a name="preferencesget"></a>[get()](#preferences)
+
+	Gets a preference by name. Throws an `Error` instance if the preferences haven't been loaded yet or if there's no preference with that name.
+
+	Generally it's easier to use the `preferences.preferenceName` syntax for the same purpose. This function can be used to access preferences with reserved names (names of properties / methods of this class and names starting with an underscore).
+
+- [load()](#preferences)
+
+	Loads the preferences. This function is invoked internally by [`usePreferences()`](#usepreferences).
+
+#### <a name="preference"></a>[Preference](#cpreference)
+
+This class serves as the base class for the classes that manage preference values ([`NumberPreference`](#numberpreference), [`StringPreference`](#stringpreference), etc). It shouldn't be instantiated directly.
+
+- [constructor()](#preference)
+
+	Takes 3 parameters:
+	- `name` &ndash; The name of the preference. See also [`Preferences.get()`](#preferencesget).
+	- `defaultValue` &ndash; A default value for the preference, used **only** on load if no value has been stored before.
+	- `valueTypes` &ndash; Valid value types. Can be `undefined`, one type or an array of types.
+
+- [assertValidity()](#preference)
+
+	Checks the validity of the passed value
+
+- [name](#preference)
+
+	A string property, returning this preference name.
+
+- [parse()](#preference)
+
+	Returns a value this preference can manage, being passed a string. The following must stand true:
+	- The parameter must be a valid string representation of the value.
+	- If the parameter is `null` this function must return `null`.
+
+- [stringify()](#preference)
+
+	Returns a string representation of the preference value.
+
+- [toString()](#preference)
+
+	Returns a human-readable representation of this preference.
+
+- [value](#preference)
+
+	A getter / setter for the preference value. When setting a value, its validity is checked with [`assertValidity()`](#preferenceassertvalidity).
+
+#### <a name="numberpreference"></a>[NumberPreference](#cnumberpreference)
+
+A class to manage number values.
+
+#### <a name="stringpreference"></a>[StringPreference](#cstringpreference)
+
+A class to manage string values.
+
+#### <a name="usePreferences"></a>[usePreferences()](#cusepreferences)
+
+This function does the following:
+1. Creates an instance of [`Preferences`](#preferences), initializing it with the passed in `preferences`.
+2. Loads the preferences.
+3. Returns the created instance.
+
+The return value of this function needn't be specified as a dependency of `React.useCallback()`, etc.
+
+This function takes 2 parameters:
+
+- `preferences` &ndash; an array of preferences (instances of classes derived from [`Preference`](#preference).
+- `onLoad` &ndash; a callback that is invoked when the preferences are loaded.
+
+### <a name="versionhistory"></a>[Version history](#cversionhistory)
+
+Version number|Changes
+-|-
+v1.0.1|Initial release.
 
 <br><br>
 > Written with [StackEdit](https://stackedit.io/).

@@ -5,7 +5,7 @@ export default class NumberPreference extends Preference {
     super(name, defaultValue, Number);
   }
   
-  _parse(value) {
+  parse(value) {
     return value === null ? null : +value;
   }
 }
