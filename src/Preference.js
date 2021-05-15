@@ -50,7 +50,7 @@ export default class Preference {
   }
   
   set value(value) {
-    this._assertValidity(value);
+    this.assertValidity(value);
     
     this.__value = value;
     

@@ -71,9 +71,9 @@ This class serves as the base class for the classes that manage preference value
 	- `defaultValue` &ndash; A default value for the preference, used **only** on load if no value has been stored before.
 	- `valueTypes` &ndash; Valid value types. Can be `undefined`, one type or an array of types.
 
-- [assertValidity()](#preference)
+- <a name="preferenceassertvalidity"></a>[assertValidity()](#preference)
 
-	Checks the validity of the passed value
+	Checks the validity of the passed value. If the value is deemed invalid, a `TypeError` is thrown.
 
 - [name](#preference)
 
@@ -123,7 +123,7 @@ This function takes 2 parameters:
 
 Version number|Changes
 -|-
-v1.0.1|Initial release.
+v1.0.2|Initial release.
 
 <br><br>
 > Written with [StackEdit](https://stackedit.io/).
