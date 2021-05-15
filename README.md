@@ -116,7 +116,7 @@ The return value of this function needn't be specified as a dependency of `React
 
 This function takes 2 parameters:
 
-- `preferences` &ndash; an array of preferences (instances of classes derived from [`Preference`](#preference).
+- `preferences` &ndash; an array of preferences (instances of classes derived from [`Preference`](#preference)).
 - `onLoad` &ndash; a callback that is invoked when the preferences are loaded.
 
 ### <a name="versionhistory"></a>[Version history](#cversionhistory)
