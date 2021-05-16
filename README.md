@@ -18,7 +18,7 @@ Example:
 	import {
 		StringPreference,
 		usePreferences
-		} from  "@robinbobin/react-native-preferences";
+	} from  "@robinbobin/react-native-preferences";
 	
 	function  App() {
 		...
@@ -123,7 +123,7 @@ This function takes 2 parameters:
 
 Version number|Changes
 -|-
-v1.0.2|Initial release.
+v1.0.3|Initial release.
 
 <br><br>
 > Written with [StackEdit](https://stackedit.io/).

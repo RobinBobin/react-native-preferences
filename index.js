@@ -2,12 +2,12 @@ import {
   useEffect,
   useState
 } from "react";
-// import ArrayPreference from "./js/ArrayPreference";
-// import JSONPreference from "./js/JSONPreference"
-import NumberPreference from "./js/NumberPreference";
-import Preference from "./js/Preference";
-import Preferences from "./js/Preferences";
-import StringPreference from "./js/StringPreference";
+// import ArrayPreference from "./src/ArrayPreference";
+// import JSONPreference from "./src/JSONPreference"
+import NumberPreference from "./src/NumberPreference";
+import Preference from "./src/Preference";
+import Preferences from "./src/Preferences";
+import StringPreference from "./src/StringPreference";
 
 export {
   // ArrayPreference,
