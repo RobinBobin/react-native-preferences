@@ -7,7 +7,7 @@ export default class Preference {
     this.__value = undefined;
     
     if (valueTypes !== undefined) {
-      this.__valueTypes = Array.isArray(valueTypes) ? `one of [${valueTypes.map(type => type.name).join(", ")}]` : `a ${valueTypes.name}`;
+      this.__valueTypes = Array.isArray(valueTypes) ? `one of [${valueTypes.map(type => type.name).join(", ")}]` : `a(n) ${valueTypes.name}`;
     }
   }
   
@@ -37,8 +37,14 @@ export default class Preference {
     return this.__name;
   }
   
+  save() {
+    AsyncStorage.setItem(this.__name, this.stringify()).catch(error => {
+      throw error;
+    });
+  }
+  
   stringify() {
-    return this.__value.toString();
+    return this.__value?.toString();
   }
   
   toString() {
@@ -51,11 +57,12 @@ export default class Preference {
   
   set value(value) {
     this.assertValidity(value);
-    
+    this._setValue(value);
+  }
+  
+  _setValue(value) {
     this.__value = value;
     
-    AsyncStorage.setItem(this.__name, this.stringify()).catch(error => {
-      throw error;
-    });
+    this.save();
   }
 };

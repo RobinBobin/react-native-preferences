@@ -3,7 +3,7 @@ import {
   useState
 } from "react";
 // import ArrayPreference from "./src/ArrayPreference";
-// import JSONPreference from "./src/JSONPreference"
+import JsonPreference from "./src/JsonPreference"
 import NumberPreference from "./src/NumberPreference";
 import Preference from "./src/Preference";
 import Preferences from "./src/Preferences";
@@ -11,7 +11,7 @@ import StringPreference from "./src/StringPreference";
 
 export {
   // ArrayPreference,
-  // JSONPreference,
+  JsonPreference,
   NumberPreference,
   Preference,
   Preferences,

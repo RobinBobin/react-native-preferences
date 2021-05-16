@@ -38,9 +38,10 @@ Example:
 
 1. <a name="cpreferences"></a>[Preferences](#preferences)
 2. <a name="cpreference"></a>[Preference](#preference)
-3. <a name="cnumberpreference"></a>[NumberPreference](#numberpreference)
-4. <a name="cstringpreference"><a>[StringPreference](#stringpreference)
-5. <a name="cusepreferences"></a>[usePreferences()](#usepreferences)
+3. <a name="cjsonpreference"></a>[JsonPreference](#jsonpreference)
+4. <a name="cnumberpreference"></a>[NumberPreference](#numberpreference)
+5. <a name="cstringpreference"><a>[StringPreference](#stringpreference)
+6. <a name="cusepreferences"></a>[usePreferences()](#usepreferences)
 
 #### <a name="preferences"></a>[Preferences](#cpreferences)
 
@@ -85,6 +86,10 @@ This class serves as the base class for the classes that manage preference value
 	- The parameter must be a valid string representation of the value.
 	- If the parameter is `null` this function must return `null`.
 
+- <a name="preferencesave"></a>[save()](#preference)
+
+	Stores the preference value in a persistent storage. This method is invoked internally by the [`value` setter](#preferencevalue), but has to be called manually for "compound" preferences like [`JsonPreference`](#jsonpreference).
+
 - [stringify()](#preference)
 
 	Returns a string representation of the preference value.
@@ -93,9 +98,16 @@ This class serves as the base class for the classes that manage preference value
 
 	Returns a human-readable representation of this preference.
 
-- [value](#preference)
+- <a name="preferencevalue"></a>[value](#preference)
 
 	A getter / setter for the preference value. When setting a value, its validity is checked with [`assertValidity()`](#preferenceassertvalidity).
+
+#### <a name="jsonpreference"></a>[JsonPreference](#cjsonpreference)
+
+A class to manage object values (`{}`). Please, don't forget to call [`save()`](#preferencesave) when changing the object:
+
+	preferences.json.value.delay = 10;
+	preferences.json.save();
 
 #### <a name="numberpreference"></a>[NumberPreference](#cnumberpreference)
 
@@ -123,6 +135,7 @@ This function takes 2 parameters:
 
 Version number|Changes
 -|-
+v1.1.0|1. [`JsonPreference`](#jsonpreference) added.<br>2. [`Preference.save()`](#preferencesave) added.
 v1.0.3|Initial release.
 
 <br><br>
