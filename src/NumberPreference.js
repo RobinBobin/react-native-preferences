@@ -1,7 +1,7 @@
 import Preference from "./Preference";
 
 export default class NumberPreference extends Preference {
-  constructor(name, defaultValue) {
+  constructor(name, defaultValue = 0) {
     super(name, defaultValue, Number);
   }
   

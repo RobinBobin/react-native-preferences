@@ -26,7 +26,7 @@ Example:
 			console.log(preferences.pref.name, preferences.pref.value);
 			preferences.pref.value = "peakaboo";
 			console.log(preferences.pref.name, preferences.pref.value);
-		});
+		}, []);
 		
 		const preferences = usePreferences([
 			new StringPreference("pref", "for you")
@@ -104,18 +104,18 @@ This class serves as the base class for the classes that manage preference value
 
 #### <a name="jsonpreference"></a>[JsonPreference](#cjsonpreference)
 
-A class to manage object values (`{}`). Please, don't forget to call [`save()`](#preferencesave) when changing the object:
+A class to manage object values (`{}`). The default value is an empty object, if not specified. Please, don't forget to call [`save()`](#preferencesave) when changing the object:
 
 	preferences.json.value.delay = 10;
 	preferences.json.save();
 
 #### <a name="numberpreference"></a>[NumberPreference](#cnumberpreference)
 
-A class to manage number values.
+A class to manage number values. The default value is zero, if not specified.
 
 #### <a name="stringpreference"></a>[StringPreference](#cstringpreference)
 
-A class to manage string values.
+A class to manage string values. The default value is an empty string, if not specified.
 
 #### <a name="usePreferences"></a>[usePreferences()](#cusepreferences)
 
@@ -126,15 +126,17 @@ This function does the following:
 
 The return value of this function needn't be specified as a dependency of `React.useCallback()`, etc.
 
-This function takes 2 parameters:
+This function takes 3 parameters:
 
 - `preferences` &ndash; an array of preferences (instances of classes derived from [`Preference`](#preference)).
 - `onLoad` &ndash; a callback that is invoked when the preferences are loaded.
+- `onUnload` &ndash; (optional) a callback that is invoked on unmount. 
 
 ### <a name="versionhistory"></a>[Version history](#cversionhistory)
 
 Version number|Changes
 -|-
+v1.2.0|1. [`usePreferences()`](#usepreferences): `onUnload` added.<br>2. Default values for [`JsonPreference`](#jsonpreference), [`NumberPreference`](#numberpreference) and [`StringPreference`](#stringpreference).
 v1.1.0|1. [`JsonPreference`](#jsonpreference) added.<br>2. [`Preference.save()`](#preferencesave) added.
 v1.0.3|Initial release.
 

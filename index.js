@@ -18,10 +18,14 @@ export {
   StringPreference
 };
 
-export function usePreferences(preferences, onLoad) {
+export function usePreferences(preferences, onLoad, onUnload) {
   const [prefs] = useState(() => new Preferences(preferences));
   
-  useEffect(() => prefs.load().then(onLoad), [prefs]);
+  useEffect(() => {
+    prefs.load().then(onLoad);
+    
+    return onUnload;
+  }, [prefs]);
   
   return prefs;
 };
