@@ -38,10 +38,11 @@ Example:
 
 1. <a name="cpreferences"></a>[Preferences](#preferences)
 2. <a name="cpreference"></a>[Preference](#preference)
-3. <a name="cjsonpreference"></a>[JsonPreference](#jsonpreference)
-4. <a name="cnumberpreference"></a>[NumberPreference](#numberpreference)
-5. <a name="cstringpreference"><a>[StringPreference](#stringpreference)
-6. <a name="cusepreferences"></a>[usePreferences()](#usepreferences)
+3. <a name="cbooleanpreference"></a>[BooleanPreference](#booleanpreference)
+4. <a name="cjsonpreference"></a>[JsonPreference](#jsonpreference)
+5. <a name="cnumberpreference"></a>[NumberPreference](#numberpreference)
+6. <a name="cstringpreference"><a>[StringPreference](#stringpreference)
+7. <a name="cusepreferences"></a>[usePreferences()](#usepreferences)
 
 #### <a name="preferences"></a>[Preferences](#cpreferences)
 
@@ -102,6 +103,10 @@ This class serves as the base class for the classes that manage preference value
 
 	A getter / setter for the preference value. When setting a value, its validity is checked with [`assertValidity()`](#preferenceassertvalidity).
 
+#### <a name="booleanpreference"></a>[BooleanPreference](#cbooleanpreference)
+
+A class to manage boolean values. The default value is `false`, if not specified.
+
 #### <a name="jsonpreference"></a>[JsonPreference](#cjsonpreference)
 
 A class to manage object values (`{}`). The default value is an empty object, if not specified. Please, don't forget to call [`save()`](#preferencesave) when changing the object:
@@ -136,6 +141,7 @@ This function takes 3 parameters:
 
 Version number|Changes
 -|-
+v1.3.0|[`BooleanPreference`](#booleanpreference) added.
 v1.2.0|1. [`usePreferences()`](#usepreferences): `onUnload` added.<br>2. Default values for [`JsonPreference`](#jsonpreference), [`NumberPreference`](#numberpreference) and [`StringPreference`](#stringpreference).
 v1.1.0|1. [`JsonPreference`](#jsonpreference) added.<br>2. [`Preference.save()`](#preferencesave) added.
 v1.0.3|Initial release.
