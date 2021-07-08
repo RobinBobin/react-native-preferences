@@ -38,9 +38,7 @@ export function usePreferences(preferences, onLoad, onUnload) {
     
     init();
     
-    return () => {
-      (cleanUp || onUnload || function() {console.log("default unload")})();
-    }
+    return () => (cleanUp || onUnload || (() => undefined))();
   }, [prefs]);
   
   return prefs;
