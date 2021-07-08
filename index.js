@@ -22,9 +22,25 @@ export function usePreferences(preferences, onLoad, onUnload) {
   const [prefs] = useState(() => new Preferences(preferences));
   
   useEffect(() => {
-    prefs.load().then(onLoad);
+    let cleanUp;
     
-    return onUnload;
+    async function init() {
+      await prefs.load();
+      
+      if (onLoad) {
+        cleanUp = onLoad();
+        
+        if (cleanUp?.constructor === Promise) {
+          cleanUp = await cleanUp;
+        }
+      }
+    }
+    
+    init();
+    
+    return () => {
+      (cleanUp || onUnload || function() {console.log("default unload")})();
+    }
   }, [prefs]);
   
   return prefs;

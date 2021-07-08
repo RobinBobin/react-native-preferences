@@ -134,13 +134,14 @@ The return value of this function needn't be specified as a dependency of `React
 This function takes 3 parameters:
 
 - `preferences` &ndash; an array of preferences (instances of classes derived from [`Preference`](#preference)).
-- `onLoad` &ndash; a callback that is invoked when the preferences are loaded.
+- `onLoad` &ndash; a callback that is invoked when the preferences are loaded. It can return a clean-up function or a `Promise`, resolving to a clean-up function. In this case this clean-up function will be invoked **instead of** `onUnload()`.
 - `onUnload` &ndash; (optional) a callback that is invoked on unmount. 
 
 ### <a name="versionhistory"></a>[Version history](#cversionhistory)
 
 Version number|Changes
 -|-
+v1.4.0|[`usePreferences()`](#usePreferences): `onLoad()` can return a clean-up function, invoked **instead of** `onUnload()`.
 v1.3.0|[`BooleanPreference`](#booleanpreference) added.
 v1.2.0|1. [`usePreferences()`](#usepreferences): `onUnload` added.<br>2. Default values for [`JsonPreference`](#jsonpreference), [`NumberPreference`](#numberpreference) and [`StringPreference`](#stringpreference).
 v1.1.0|1. [`JsonPreference`](#jsonpreference) added.<br>2. [`Preference.save()`](#preferencesave) added.
