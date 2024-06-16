@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "allowJs": false,
+    "strict": true,
+    "target": "ESNext"
+  }
+}
