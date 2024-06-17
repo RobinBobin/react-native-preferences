@@ -1,17 +1,19 @@
-import type Preference from './Preference'
+import type { TPreferences } from './types'
 
-const namesNotToCheck = ['areLoaded', 'get', 'load', 'preferences', '__areLoaded']
+import { NamedPreference } from './NamedPreference'
 
-export default class Preferences {
+const namesNotToCheck = ['areLoaded', 'load', 'preferences', '__areLoaded']
+
+export class Preferences {
   private __areLoaded: boolean
-  private readonly preferences: Map<string, Preference> = new Map()
+  private readonly preferences: Map<string, NamedPreference> = new Map()
 
-  constructor(preferences: Preference[]) {
+  constructor(preferences: TPreferences) {
     this.__areLoaded = false
 
-    for (const preference of preferences) {
-      this.preferences.set(preference.name, preference)
-    }
+    Object.entries(preferences).forEach(([name, preference]) => {
+      this.preferences.set(name, new NamedPreference(name, preference))
+    })
 
     return new Proxy(this, {
       get: (target, name) => target.__get(name),
@@ -24,7 +26,7 @@ export default class Preferences {
     return this.__areLoaded
   }
 
-  get(name: string): Preference {
+  get(name: string): NamedPreference {
     if (!this.__areLoaded) {
       throw new Error(`Trying to get preference '${name}' before the preferences are loaded`)
     }

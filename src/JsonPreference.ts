@@ -1,11 +1,11 @@
-import Preference from './Preference'
+import { Preference } from './Preference'
 
-export default class JsonPreference extends Preference<Record<string, unknown>> {
-  constructor(name: string, defaultValue: Record<string, unknown> = {}) {
-    super({ defaultValue, name, valueTypes: Object })
+export class JsonPreference<T extends object> extends Preference<T> {
+  constructor(defaultValue: T = {} as T) {
+    super(defaultValue, Object)
   }
 
-  parse(value: string): Record<string, unknown> {
+  parse(value: string): T {
     return JSON.parse(value)
   }
 

@@ -1,8 +1,8 @@
-import Preference from './Preference'
+import { Preference } from './Preference'
 
-export default class StringPreference extends Preference<string> {
-  constructor(name: string, defaultValue: string = '') {
-    super({ defaultValue, name, valueTypes: String })
+export class StringPreference extends Preference<string> {
+  constructor(defaultValue: string = '') {
+    super(defaultValue, String)
   }
 
   parse(value: string): string | null {

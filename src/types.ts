@@ -1,9 +1,3 @@
-interface IValueType {
-  name: string
-}
+import type { Preference } from './Preference'
 
-export interface IPreferenceParams<T> {
-  defaultValue: T
-  name: string
-  valueTypes: IValueType | IValueType[]
-}
+export type TPreferences = Record<string, Preference<unknown>>

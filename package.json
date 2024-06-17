@@ -5,6 +5,7 @@
   },
   "description": "Persistent unencrypted storage for application preferences.",
   "devDependencies": {
+    "@types/react": "^16.8.0",
     "@typescript-eslint/eslint-plugin": "^7.13.0",
     "@typescript-eslint/parser": "^7.13.0",
     "eslint": "^8.57.0",
@@ -27,6 +28,9 @@
   "license": "MIT",
   "main": "index.ts",
   "name": "@robinbobin/react-native-preferences",
+  "peerDependencies": {
+    "@react-native-async-storage/async-storage": "*"
+  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/RobinBobin/react-native-preferences.git"
