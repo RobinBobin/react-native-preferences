@@ -34,7 +34,7 @@ export abstract class Preference<T> {
   abstract parse(value: string | null): T | null
 
   stringify(): string {
-    return this.__value === null ? 'null' : this.__value!.toString()
+    return this.__value?.toString() ?? 'null'
   }
 
   get value(): T {

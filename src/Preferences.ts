@@ -2,7 +2,11 @@ import type { TPreferences } from './types'
 
 import { NamedPreference } from './NamedPreference'
 
-const namesNotToCheck = ['areLoaded', 'load', 'preferences', '__areLoaded']
+type TStringOrSymbol = string | symbol
+type TThat = Record<TStringOrSymbol, unknown>
+
+const directlyGettable = ['areLoaded', 'load', 'preferences', '__areLoaded']
+const directlySettable = ['__areLoaded']
 
 export class Preferences {
   private __areLoaded: boolean
@@ -50,17 +54,25 @@ export class Preferences {
     this.__areLoaded = true
   }
 
-  private __get(name: string | symbol): unknown {
-    return typeof name === 'symbol' || namesNotToCheck.includes(name) ? this[name] : this.get(name)
+  private __get(name: TStringOrSymbol): unknown {
+    return typeof name === 'symbol' || directlyGettable.includes(name)
+      ? this.__that()[name]
+      : this.get(name)
   }
 
-  private __set(name: string | symbol, value: unknown): boolean {
-    if (name.valueOf() !== '__areLoaded') {
-      throw new Error(`Preferences.${String(name)}: value can't be set`)
+  private __set(name: TStringOrSymbol, value: unknown): boolean {
+    const stringifiedName = name.valueOf().toString()
+
+    if (!directlySettable.includes(stringifiedName)) {
+      throw new Error(`Preferences.${stringifiedName}: value can't be set`)
     }
 
-    this[name] = value
+    this.__that()[name] = value
 
     return true
+  }
+
+  private __that(): TThat {
+    return this as TThat
   }
 }
