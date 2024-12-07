@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
-    "allowJs": false,
-    "module": "Node16",
-    "strict": true,
-    "target": "ESNext"
-  }
+    "outDir": "js"
+  },
+  "extends": "@robinbobin/ts-eslint-prettier/tsconfig.base",
+  "include": ["./*.mjs", "**/*.ts"]
 }

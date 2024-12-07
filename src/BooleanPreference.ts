@@ -1,11 +1,12 @@
 import { Preference } from './Preference'
 
 export class BooleanPreference extends Preference<boolean> {
-  constructor(defaultValue: boolean = false) {
-    super(defaultValue, Boolean)
+  constructor(defaultValue = false) {
+    super(defaultValue)
   }
 
-  parse(value: string): boolean | null {
-    return value === null ? null : value === true.toString()
+  // eslint-disable-next-line @typescript-eslint/class-methods-use-this
+  override parse(value: string): boolean {
+    return value === true.toString()
   }
 }

@@ -1,15 +1,18 @@
+import type { JsonObject } from 'type-fest'
+
 import { Preference } from './Preference'
 
-export class JsonPreference<T extends object> extends Preference<T> {
+export class JsonPreference<T extends JsonObject> extends Preference<T> {
   constructor(defaultValue: T = {} as T) {
-    super(defaultValue, Object)
+    super(defaultValue)
   }
 
-  parse(value: string): T {
-    return JSON.parse(value)
+  // eslint-disable-next-line @typescript-eslint/class-methods-use-this
+  override parse(value: string): T {
+    return JSON.parse(value) as T
   }
 
-  stringify(): string {
+  override stringify(): string {
     return JSON.stringify(this.value)
   }
 }

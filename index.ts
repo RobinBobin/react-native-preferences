@@ -1,57 +1,52 @@
-import type { EffectCallback } from 'react'
 import type { TPreferences } from './src/types'
+import type { IUsePreferencesReturnType, TDestructor, TOnLoad } from './types'
 
+import { isPromise } from 'radashi'
 import { useEffect, useMemo, useState } from 'react'
 
 import { Preferences } from './src/Preferences'
 
-export { BooleanPreference } from './src/BooleanPreference'
-export { JsonPreference } from './src/JsonPreference'
-export { NumberPreference } from './src/NumberPreference'
-export { Preference } from './src/Preference'
-export { StringPreference } from './src/StringPreference'
-
-interface IUsePreferencesReturnType<T extends TPreferences> {
-  areLoaded: boolean
-  preferences: T
-}
-
-type TDestructor = ReturnType<EffectCallback>
-type TOnLoadReturnType = TDestructor | Promise<TDestructor>
-
-const isPromise = <T>(result: T | Promise<T>): result is Promise<T> => {
-  return result?.constructor === Promise
-}
-
 export function usePreferences<T extends TPreferences>(
   preferences: T,
-  onLoad?: () => TOnLoadReturnType
+  onLoad?: TOnLoad
 ): IUsePreferencesReturnType<T> {
-  const prefs = useMemo(() => new Preferences(preferences), [])
+  const preferencesWrapper = useMemo(
+    () => new Preferences(preferences),
+    [preferences]
+  )
   const [areLoaded, setAreLoaded] = useState(false)
 
   useEffect(() => {
     let cleanUp: TDestructor
 
     async function init(): Promise<void> {
-      await prefs.load()
-
-      setAreLoaded(true)
+      await preferencesWrapper.load()
 
       if (onLoad) {
         const result = onLoad()
 
         cleanUp = isPromise(result) ? await result : result
       }
+
+      setAreLoaded(true)
     }
 
-    init()
+    void init()
 
-    return () => cleanUp?.()
-  }, [prefs])
+    const result: TDestructor = () => cleanUp?.()
+
+    return result
+  }, [onLoad, preferencesWrapper])
 
   return {
     areLoaded,
-    preferences: prefs as unknown as T
+    preferences: preferencesWrapper as unknown as T
   }
 }
+
+export * from './src/BooleanPreference'
+export * from './src/JsonPreference'
+export * from './src/NumberPreference'
+export * from './src/Preference'
+export * from './src/StringPreference'
+export * from './types'

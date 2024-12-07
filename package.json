@@ -3,22 +3,21 @@
   "bugs": {
     "url": "https://github.com/RobinBobin/react-native-preferences/issues"
   },
+  "dependencies": {
+    "radashi": "^12.3.0",
+    "simple-common-utils": "^3.3.0",
+    "type-fest": "^4.30.0"
+  },
   "description": "Persistent unencrypted storage for application preferences.",
   "devDependencies": {
-    "@types/react": "^16.8.0",
-    "@typescript-eslint/eslint-plugin": "^7.13.0",
-    "@typescript-eslint/parser": "^7.13.0",
-    "eslint": "^8.57.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-n": "^16.6.2",
-    "eslint-plugin-prettier": "^5.1.3",
-    "eslint-plugin-promise": "^6.2.0",
-    "eslint-plugin-react-hooks": "^4.6.2",
-    "eslint-plugin-simple-import-sort": "^12.1.0",
-    "prettier": "^3.3.2",
-    "typescript": "^5.4.5"
+    "@react-native-async-storage/async-storage": "^2.1.0",
+    "@robinbobin/ts-eslint-prettier": "^2.1.0",
+    "@types/react": "^18.3.14",
+    "eslint": "^9.16.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "prettier": "^3.4.2",
+    "react": "^18.3.1",
+    "typescript": "^5.7.2"
   },
   "homepage": "https://github.com/RobinBobin/react-native-preferences#readme",
   "keywords": [
@@ -28,12 +27,14 @@
   "license": "MIT",
   "main": "index.ts",
   "name": "@robinbobin/react-native-preferences",
+  "packageManager": "pnpm@9.15.0+sha512.76e2379760a4328ec4415815bcd6628dee727af3779aaa4c914e3944156c4299921a89f976381ee107d41f12cfa4b66681ca9c718f0668fa0831ed4c6d8ba56c",
   "peerDependencies": {
-    "@react-native-async-storage/async-storage": "*"
+    "@react-native-async-storage/async-storage": "^2.1.0",
+    "react": "^18"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/RobinBobin/react-native-preferences.git"
+  "repository": "github:RobinBobin/react-native-preferences.git",
+  "scripts": {
+    "prepack": "./prepack.sh"
   },
   "version": "2.0.0"
 }

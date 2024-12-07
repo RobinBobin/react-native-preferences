@@ -1,11 +1,12 @@
 import { Preference } from './Preference'
 
 export class StringPreference extends Preference<string> {
-  constructor(defaultValue: string = '') {
-    super(defaultValue, String)
+  constructor(defaultValue = '') {
+    super(defaultValue)
   }
 
-  parse(value: string): string | null {
+  // eslint-disable-next-line @typescript-eslint/class-methods-use-this
+  override parse(value: string): string {
     return value
   }
 }

@@ -1,71 +1,68 @@
-import type { TPreferences } from './types'
+import type { Preference } from './Preference'
+import type { TPreferences, TStringOrSymbol, TThat } from './types'
 
-import { NamedPreference } from './NamedPreference'
+import { isSymbol } from 'radashi'
+import { verify } from 'simple-common-utils'
 
-type TStringOrSymbol = string | symbol
-type TThat = Record<TStringOrSymbol, unknown>
-
-const directlyGettable = ['areLoaded', 'load', 'preferences', '__areLoaded']
-const directlySettable = ['__areLoaded']
+const directlyGettable = ['areLoaded', 'load', 'preferences']
+const directlySettable = ['areLoaded']
 
 export class Preferences {
-  private __areLoaded: boolean
-  private readonly preferences: Map<string, NamedPreference> = new Map()
+  private areLoaded = false
+  private readonly preferences = new Map<string, Preference<unknown>>()
 
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
   constructor(preferences: TPreferences) {
-    this.__areLoaded = false
+    for (const [name, preference] of Object.entries(preferences)) {
+      preference.setName(name)
 
-    Object.entries(preferences).forEach(([name, preference]) => {
-      this.preferences.set(name, new NamedPreference(name, preference))
-    })
-
-    return new Proxy(this, {
-      get: (target, name) => target.__get(name),
-      // eslint-disable-next-line max-params
-      set: (target, name, value) => target.__set(name, value)
-    })
-  }
-
-  get areLoaded(): boolean {
-    return this.__areLoaded
-  }
-
-  get(name: string): NamedPreference {
-    if (!this.__areLoaded) {
-      throw new Error(`Trying to get preference '${name}' before the preferences are loaded`)
+      this.preferences.set(name, preference)
     }
+
+    // eslint-disable-next-line no-constructor-return
+    return new Proxy(this, {
+      get: (target, name): unknown => target.__get(name),
+      set: (target, name, value): boolean => target.__set(name, value)
+    })
+  }
+
+  get(name: string): Preference<unknown> {
+    verify(
+      this.areLoaded,
+      `Trying to get preference '${name}' before the preferences are loaded`
+    )
 
     const preference = this.preferences.get(name)
 
-    if (!preference) {
-      throw new Error(`Preference '${name}' is not defined`)
-    }
+    verify(preference, `Preference '${name}' is not defined`)
 
     return preference
   }
 
   async load(): Promise<void> {
-    if (this.__areLoaded) {
-      throw new Error('Preferences can be loaded only once')
-    }
+    verify(!this.areLoaded, 'Preferences can be loaded only once')
 
-    await Promise.all(Array.from(this.preferences.values()).map(preference => preference.load()))
+    await Promise.all(
+      // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
+      Array.from(this.preferences.values()).map(preference => preference.load())
+    )
 
-    this.__areLoaded = true
+    this.areLoaded = true
   }
 
   private __get(name: TStringOrSymbol): unknown {
-    return typeof name === 'symbol' || directlyGettable.includes(name)
-      ? this.__that()[name]
+    return isSymbol(name) || directlyGettable.includes(name) ?
+        this.__that()[name]
       : this.get(name)
   }
 
   private __set(name: TStringOrSymbol, value: unknown): boolean {
     const stringifiedName = name.valueOf().toString()
 
-    if (!directlySettable.includes(stringifiedName)) {
-      throw new Error(`Preferences.${stringifiedName}: value can't be set`)
-    }
+    verify(
+      directlySettable.includes(stringifiedName),
+      `Preferences.${stringifiedName}: value can't be set`
+    )
 
     this.__that()[name] = value
 

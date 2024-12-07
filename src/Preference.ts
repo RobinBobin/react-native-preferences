@@ -1,51 +1,57 @@
-interface IValidType {
-  name: string
-}
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { isNullish, isString } from 'radashi'
+import { verify } from 'simple-common-utils'
 
 export abstract class Preference<T> {
-  private __value: T
+  private name?: string
+  private __value: T | null = null
 
-  constructor(
-    private readonly defaultValue: T,
-    protected readonly validTypes: IValidType | IValidType[]
-  ) {
-    this.__value = null as T
+  constructor(private readonly defaultValue: T) {
+    // Nothing to do
   }
 
-  assertValidity(value: T | null): void {
-    const isValidType = (Array.isArray(this.validTypes) ? this.validTypes : [this.validTypes]).some(
-      // eslint-disable-next-line valid-typeof
-      validType => validType.name.toLowerCase() === typeof value
-    )
-
-    if (!isValidType) {
-      throw new TypeError()
-    }
-
-    // const valueConstructorName = value?.constructor.name ?? '<undefined>'
-
-    // if (this.valueTypes.indexOf(valueConstructorName) === -1) {
-    //   throw new TypeError(
-    //     `Preference '${this.name}': value must be ${this.valueTypes}, but ${valueConstructorName} ${value} was passed`
-    //   )
-    // }
+  getOrDefault(): T {
+    return this.value ?? this.defaultValue
   }
 
-  abstract parse(value: string | null): T | null
+  async load(): Promise<void> {
+    verify(isString(this.name), "Can't load without name")
 
-  stringify(): string {
-    return this.__value?.toString() ?? 'null'
+    const rawValue = await AsyncStorage.getItem(this.name)
+
+    this.value = isNullish(rawValue) ? this.defaultValue : this.parse(rawValue)
   }
 
-  get value(): T {
+  async save(): Promise<void> {
+    verify(isString(this.name), "Can't save without name")
+
+    await AsyncStorage.setItem(this.name, this.stringify())
+  }
+
+  setName(name: string): void {
+    verify(name, "Can't set an empty name")
+    verify(isNullish(this.name), '`setName()` can be invoked only once')
+
+    this.name = name
+  }
+
+  toString(): string {
+    return `${this.constructor.name} '${this.name}' (${this.stringify()})`
+  }
+
+  get value(): T | null {
     return this.__value
   }
 
   set value(value) {
-    const valueToSet = value ?? this.defaultValue
+    this.__value = value
 
-    this.assertValidity(valueToSet)
+    void this.save()
+  }
 
-    this.__value = valueToSet
+  protected abstract parse(value: string): T
+
+  protected stringify(): string {
+    return this.__value?.toString() ?? 'null'
   }
 }
