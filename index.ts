@@ -10,10 +10,8 @@ export function usePreferences<T extends TPreferences>(
   preferences: T,
   onLoad?: TOnLoad
 ): IUsePreferencesReturnType<T> {
-  const preferencesWrapper = useMemo(
-    () => new Preferences(preferences),
-    [preferences]
-  )
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const preferencesWrapper = useMemo(() => new Preferences(preferences), [])
   const [areLoaded, setAreLoaded] = useState(false)
 
   useEffect(() => {
@@ -36,7 +34,8 @@ export function usePreferences<T extends TPreferences>(
     const result: TDestructor = () => cleanUp?.()
 
     return result
-  }, [onLoad, preferencesWrapper])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [preferencesWrapper])
 
   return {
     areLoaded,
