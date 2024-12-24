@@ -39,7 +39,8 @@ export function usePreferences<T extends TPreferences>(
 
   return {
     areLoaded,
-    preferences: preferencesWrapper as unknown as T
+    preferences: preferencesWrapper as unknown as T,
+    preferencesWrapper
   }
 }
 

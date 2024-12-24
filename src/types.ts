@@ -1,7 +1,11 @@
 import type { Preference } from './Preference'
 
-type TPreferences = Record<string, Preference<unknown>>
+interface IPreference {
+  toString: () => string
+}
+
+type TPreferences = Record<string, Preference<IPreference>>
 type TStringOrSymbol = string | symbol
 type TThat = Record<TStringOrSymbol, unknown>
 
-export type { TPreferences, TStringOrSymbol, TThat }
+export type { IPreference, TPreferences, TStringOrSymbol, TThat }

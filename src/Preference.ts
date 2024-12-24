@@ -1,16 +1,25 @@
+import type { IPreference } from './types'
+
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { isNullish, isString } from 'radashi'
 import { verify } from 'simple-common-utils'
 
-export abstract class Preference<T> {
+import { VALUE_FOR_NULL } from './constants'
+
+export abstract class Preference<T extends IPreference> {
   private name?: string
   private __value: T | null = null
 
-  constructor(private readonly defaultValue: T) {
+  constructor(private readonly defaultValue: T | null) {
     // Nothing to do
   }
 
   getOrDefault(): T {
+    verify(
+      !isNullish(this.defaultValue),
+      "'getOrDefault()' can't be invoked if 'this.defaultValue' is nullish"
+    )
+
     return this.value ?? this.defaultValue
   }
 
@@ -49,9 +58,19 @@ export abstract class Preference<T> {
     void this.save()
   }
 
-  protected abstract parse(value: string): T
+  protected abstract _parse(value: string): T
 
-  protected stringify(): string {
-    return this.__value?.toString() ?? 'null'
+  protected _stringify(): string {
+    verify(!isNullish(this.value), "'this.value' can't be null here")
+
+    return this.value.toString()
+  }
+
+  private parse(value: string): T | null {
+    return value === VALUE_FOR_NULL ? null : this._parse(value)
+  }
+
+  private stringify(): string {
+    return this.value === null ? VALUE_FOR_NULL : this._stringify()
   }
 }
